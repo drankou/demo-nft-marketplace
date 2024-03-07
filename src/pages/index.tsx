@@ -1,30 +1,26 @@
 import { signOut, useSession } from "next-auth/react";
 
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import { getTableChildrenBlocks, parseNftAddresses } from "@/lib/notion";
+import { GetStaticProps } from "next";
 import Image from "next/image";
 import { useState } from "react";
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 
-export async function getStaticProps() {
+const TABLE_BLOCK_ID = "964b884f-44a3-4637-8440-2f4040a32392";
+
+export const getStaticProps: GetStaticProps = async () => {
+  const blocks = await getTableChildrenBlocks(TABLE_BLOCK_ID);
+  const nftAddresses = parseNftAddresses(blocks);
+
   return {
     props: {
-      initialNfts: [
-        {
-          id: 1,
-          name: "First NFT",
-          description: "Description of the first NFT.",
-        },
-        {
-          id: 2,
-          name: "Second NFT",
-          description: "Description of the second NFT.",
-        },
-      ],
+      initialNfts: nftAddresses,
     },
   };
-}
+};
 
-export default function Home({ initialNfts }: { initialNfts: any }) {
+export default function Home({ initialNfts }: { initialNfts: string[] }) {
   const { data: session } = useSession();
   const [nfts, setNfts] = useState(initialNfts);
 
@@ -52,13 +48,12 @@ export default function Home({ initialNfts }: { initialNfts: any }) {
       <div className="flex flex-col p-8 w-full mt-8">
         <h1 className="text-4xl font-bold">NFT Collection</h1>
         <div className="grid grid-cols-1 gap-4 mt-8">
-          {nfts.map((nft: any) => (
+          {nfts.map((nft: string) => (
             <div
-              key={nft.id}
+              key={nft}
               className="flex flex-col items-center justify-center p-4 bg-gray-100 rounded-md"
             >
-              <h2 className="text-2xl font-bold">{nft.name}</h2>
-              <p className="mt-2">{nft.description}</p>
+              <h2 className="text-base font-bold">{nft}</h2>
             </div>
           ))}
         </div>
