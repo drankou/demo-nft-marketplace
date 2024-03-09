@@ -23,9 +23,7 @@ export const Navbar = () => {
             <DropdownMenuTrigger>
               <Avatar>
                 <AvatarImage src={user?.image || ''} />
-                <AvatarFallback>
-                  {(user?.name && user.name[0]) || 'U'}
-                </AvatarFallback>
+                <AvatarFallback>{user?.name && user.name[0]}</AvatarFallback>
               </Avatar>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
