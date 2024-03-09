@@ -23,7 +23,14 @@ export const getTonApi = () => {
   return tonapiClient;
 };
 
-export type NftItem = Awaited<ReturnType<typeof getNftItemsByAddresses>>[0];
+export type NftItem = {
+  rawAddress: string;
+  userFriendlyAddress: string;
+  ownerAddress: string | null;
+  image: string | null;
+  name: string;
+  description: string | null;
+};
 
 export const getNftItemsByAddresses = async (addresses: string[]) => {
   const rawAddresses = addresses.map((address) =>
@@ -40,13 +47,20 @@ export const getNftItemsByAddresses = async (addresses: string[]) => {
     return {
       rawAddress: nft.address,
       userFriendlyAddress: address.toString(true, true, true),
-      ownerAddress: nft.owner?.address,
-      image: nft?.previews?.find(
-        (preview) => preview.resolution === "1500x1500"
-      )?.url,
+      ownerAddress:
+        (nft.owner &&
+          new tonweb.utils.Address(nft.owner.address).toString(
+            true,
+            true,
+            true
+          )) ||
+        null,
+      image:
+        nft?.previews?.find((preview) => preview.resolution === "1500x1500")
+          ?.url || null,
       name: nft.metadata.name,
-      description: nft.metadata.description ?? null,
-    };
+      description: nft.metadata.description || null,
+    } as NftItem;
   });
 
   return nfts;

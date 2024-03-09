@@ -50,9 +50,9 @@ export default function Home({ initialNfts }: { initialNfts: Array<NftItem> }) {
           </Button>
         </div>
       </div>
-      <div className="flex flex-col p-8 w-full mt-8">
+      <div className="flex flex-col p-8 w-full mt-4">
         <h1 className="text-4xl font-bold">NFT Collection</h1>
-        <div className="grid grid-cols-3 gap-4 mt-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 2xl:gap-10 gap-8 mt-8">
           {nfts.map((nft) => (
             <NftCard key={nft.userFriendlyAddress} nft={nft} />
           ))}
