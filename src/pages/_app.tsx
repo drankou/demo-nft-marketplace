@@ -1,4 +1,3 @@
-import { cn } from '@/lib/utils'
 import '@/styles/globals.css'
 import { SessionProvider } from 'next-auth/react'
 import type { AppProps } from 'next/app'
@@ -10,10 +9,14 @@ export default function App({
   Component,
   pageProps: { session, ...pageProps },
 }: AppProps) {
-  const user = session?.user
   return (
     <SessionProvider session={session}>
-      <main className={inter.className}>
+      <style jsx global>{`
+        html {
+          font-family: ${inter.style.fontFamily};
+        }
+      `}</style>
+      <main>
         <Component {...pageProps} />
       </main>
     </SessionProvider>
