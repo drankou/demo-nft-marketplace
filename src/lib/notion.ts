@@ -1,6 +1,8 @@
 import { Client, isFullBlock } from '@notionhq/client'
 import {
+  BlockObjectResponse,
   ListBlockChildrenParameters,
+  PartialBlockObjectResponse,
   TableRowBlockObjectResponse,
 } from '@notionhq/client/build/src/api-endpoints'
 
@@ -16,45 +18,45 @@ export const getNotionClient = () => {
   return notionClient
 }
 
-export const getTableRows = async ({
+export const getTableBlocks = async ({
   block_id,
   page_size = 10,
   start_cursor,
-}: ListBlockChildrenParameters) => {
+  ignoreHeader,
+}: ListBlockChildrenParameters & {
+  ignoreHeader?: boolean
+}) => {
   const notion = getNotionClient()
-
-  const table = await notion.blocks.retrieve({
-    block_id,
-  })
-
-  if (!isFullBlock(table) || table.type !== 'table') {
-    throw new Error('Block is not a table')
-  }
-
-  const hasColumnHeader = table.table.has_column_header
 
   const response = await notion.blocks.children.list({
     block_id,
-    page_size: page_size + (hasColumnHeader ? 1 : 0), // Add 1 to page_size if table has column header
+    page_size: page_size + (ignoreHeader ? 1 : 0), // Add 1 to page_size if table has column header
     start_cursor,
   })
 
-  return response.results
+  return response
 }
 
 export const parseNftAddresses = (
-  results: Awaited<ReturnType<typeof getTableRows>>
+  results: (PartialBlockObjectResponse | BlockObjectResponse)[]
 ) => {
   const fullBlocks = results.filter(isFullBlock)
   const tableRows = fullBlocks.filter(
     (block): block is TableRowBlockObjectResponse => block.type === 'table_row'
   )
-  const addresses = tableRows.slice(1, tableRows.length - 1).map((tableRow) => {
-    const cells = tableRow.table_row.cells
-    const address = cells[0][0].plain_text
+  const addresses = tableRows
+    .map((tableRow) => {
+      const cells = tableRow.table_row.cells
+      const address = cells[0][0].plain_text
 
-    return address
-  })
+      // User-friendly address should contain strictly 48 characters
+      if (address.length !== 48) {
+        return null
+      }
+
+      return address
+    })
+    .filter(Boolean) as string[]
 
   return addresses
 }

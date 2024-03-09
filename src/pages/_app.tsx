@@ -13,7 +13,7 @@ export default function App({
   const user = session?.user
   return (
     <SessionProvider session={session}>
-      <main className={cn('mt-[88px]', inter.className)}>
+      <main className={inter.className}>
         <Component {...pageProps} />
       </main>
     </SessionProvider>
