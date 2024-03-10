@@ -52,7 +52,7 @@ export default function Home({
 
   const containerRef = useRef<HTMLDivElement>(null)
 
-  const handleScroll = () => {
+  const shouldLoadMore = () => {
     if (containerRef.current && typeof window !== 'undefined') {
       const container = containerRef.current
       const { bottom } = container.getBoundingClientRect()
@@ -60,27 +60,11 @@ export default function Home({
 
       const spaceToBottom = bottom - innerHeight
 
-      setIsInView(spaceToBottom < 500)
+      return spaceToBottom < 500
     }
+
+    return false
   }
-
-  // Initial scroll check
-  useEffect(() => handleScroll(), [])
-
-  useEffect(() => {
-    const handleDebouncedScroll = debounce(() => handleScroll(), 50)
-    window.addEventListener('scroll', handleDebouncedScroll)
-    return () => {
-      window.removeEventListener('scroll', handleDebouncedScroll)
-    }
-  }, [])
-
-  useEffect(() => {
-    if (hasMoreData && isInView && !isLoading) {
-      loadMoreData()
-      setIsInView(false)
-    }
-  }, [isInView, hasMoreData, isLoading])
 
   const loadMoreData = async () => {
     setIsLoading(true)
@@ -97,6 +81,9 @@ export default function Home({
     }
 
     setIsLoading(false)
+    if (!shouldLoadMore()) {
+      setIsInView(false)
+    }
   }
 
   const fetchNfts = async () => {
@@ -107,6 +94,32 @@ export default function Home({
 
     return data as NftItemsData
   }
+
+  // Initial load check
+  useEffect(() => {
+    if (shouldLoadMore()) {
+      setIsInView(true)
+    }
+  }, [])
+
+  useEffect(() => {
+    const handleDebouncedScroll = debounce(() => {
+      if (shouldLoadMore()) {
+        setIsInView(true)
+      }
+    }, 50)
+
+    window.addEventListener('scroll', handleDebouncedScroll)
+    return () => {
+      window.removeEventListener('scroll', handleDebouncedScroll)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (hasMoreData && isInView && !isLoading) {
+      loadMoreData()
+    }
+  }, [isInView, hasMoreData, isLoading])
 
   return (
     <div className="flex flex-col items-center">
