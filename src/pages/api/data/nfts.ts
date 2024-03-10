@@ -1,6 +1,8 @@
 import { getTableBlocks, parseNftAddresses } from '@/lib/notion'
 import { NftItem, getNftItemsByAddresses } from '@/lib/tonapi'
 import { NextApiRequest, NextApiResponse } from 'next'
+import { getServerSession } from 'next-auth'
+import { authOptions } from '../auth/[...nextauth]'
 
 export type NftItemsData = {
   items: Array<NftItem>
@@ -9,6 +11,12 @@ export type NftItemsData = {
 }
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+  const session = await getServerSession(req, res, authOptions)
+  if (!session) {
+    res.status(401).json({ error: 'Unauthorized' })
+    return
+  }
+
   const { id, start_cursor, page_size = 5 } = req.query
 
   const { results, has_more, next_cursor } = await getTableBlocks({
