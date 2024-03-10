@@ -51,6 +51,12 @@ export const parseNftAddresses = (
   const addresses = tableRows
     .map((tableRow) => {
       const cells = tableRow.table_row.cells
+
+      // Skip empty rows
+      if (!cells[0][0]) {
+        return null
+      }
+
       const address = cells[0][0].plain_text
 
       // User-friendly address should contain strictly 48 characters

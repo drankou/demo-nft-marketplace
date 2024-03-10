@@ -37,13 +37,29 @@ export type NftItem = {
 }
 
 export const getNftItemsByAddresses = async (addresses: string[]) => {
-  const rawAddresses = addresses.map((address) =>
-    new tonweb.utils.Address(address).toString(false)
-  )
+  if (addresses.length === 0) {
+    return []
+  }
 
-  const { nft_items } = await getTonApi().nft.getNftItemsByAddresses({
-    account_ids: rawAddresses,
-  })
+  const rawAddresses = addresses
+    .map((address) => {
+      try {
+        return new tonweb.utils.Address(address).toString(false)
+      } catch (error) {
+        console.error(`Error parsing address: ${address}:`, error)
+        return null
+      }
+    })
+    .filter(Boolean) as string[]
+
+  const { nft_items } = await getTonApi()
+    .nft.getNftItemsByAddresses({
+      account_ids: rawAddresses,
+    })
+    .catch((error) => {
+      console.error('Error fetching NFTs:', error)
+      return { nft_items: [] }
+    })
 
   const nfts = nft_items.map((nft) => {
     const address = new tonweb.utils.Address(nft.address)
