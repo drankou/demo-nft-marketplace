@@ -7,7 +7,7 @@ import { GetStaticProps } from 'next'
 import { useEffect, useRef, useState } from 'react'
 import { NftItemsData } from './api/data/nfts'
 
-const TABLE_BLOCK_ID = '964b884f-44a3-4637-8440-2f4040a32392'
+const TABLE_BLOCK_ID = process.env.NEXT_PUBLIC_NOTION_TABLE_BLOCK_ID!
 const INITIAL_PAGE_SIZE = 5
 const PAGE_SIZE = 5
 
