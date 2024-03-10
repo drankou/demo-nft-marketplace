@@ -34,7 +34,7 @@ cp .env.example .env.local
    2. Generate a random string and save it into a `.env.local` file as `NEXTAUTH_SECRET`.
 
       ```bash
-      openssl rand -base64 32 | pbcopy
+      openssl rand -base64 32 | pbcopy # generate a random string and copy it to the clipboard (macOS)
       ```
 
 3. Create a Telegram Bot
@@ -47,7 +47,7 @@ cp .env.example .env.local
 4. Create a Notion Integration
 
    1. Go to [Notion Integrations](https://www.notion.so/my-integrations) and create a new integration.
-   2. Copy the `Internal Integration Token` and save it into a `.env.local` file as `NOTION_TOKEN`.
+   2. Copy the `Internal Integration Secret` and save it into a `.env.local` file as `NOTION_TOKEN`.
    3. Connect the integration to the Notion page that contains the table you want to connect.
      <img width="500" alt="Connect integration to Notion page" src="https://github.com/drankou/demo-nft-marketplace/assets/25752851/964a0992-81a1-494d-b8e7-5703ff22c338">
 
