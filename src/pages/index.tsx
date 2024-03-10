@@ -30,6 +30,7 @@ export const getStaticProps: GetStaticProps = async () => {
       nextCursor,
       hasMore,
     },
+    revalidate: 600, // 10 minutes
   }
 }
 
