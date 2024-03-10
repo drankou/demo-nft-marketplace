@@ -1,5 +1,6 @@
 import { LoginButton } from '@telegram-auth/react'
 import { signIn } from 'next-auth/react'
+import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { GetServerSidePropsContext } from 'next/types'
 
@@ -19,6 +20,9 @@ const Signin = ({ botUsername }: { botUsername: string }) => {
 
   return (
     <>
+      <Head>
+        <title>💎 Marketplace - Log In </title>
+      </Head>
       <div className="absolute left-1/2 top-1/3 -translate-x-1/2">
         <span className="text-nowrap text-4xl font-semibold">
           💎 Marketplace
