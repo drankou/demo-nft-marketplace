@@ -62,13 +62,15 @@ cp .env.example .env.local
    Table block id: 7ca1b622e7e940dcb898cfa01630d30f
    ```
 
-6. Install dependencies
+6. Go to [Tonconsole](https://tonconsole.com/tonapi/api-keys) and create a new tonapi API key. Copy the key and save it into a `.env.local` file as `TONAPI_TOKEN`.
+
+7. Install dependencies
 
 ```bash
 yarn install
 ```
 
-6. Run the development server
+8. Run the development server
 
 ```bash
 yarn dev
