@@ -15,9 +15,7 @@ export const Navbar = () => {
   return (
     <header className="fixed -top-1 left-0 z-10 w-full">
       <div className="absolute left-0 top-0 flex w-full items-center justify-between bg-background/60 px-8 py-6 backdrop-blur-md">
-        <span className="text-nowrap text-2xl font-semibold">
-          💎 Marketplace
-        </span>
+        <span className="text-2xl font-semibold">💎&nbsp;Marketplace</span>
         <div className="flex w-full items-center justify-end gap-2">
           <DropdownMenu modal={false}>
             <DropdownMenuTrigger>

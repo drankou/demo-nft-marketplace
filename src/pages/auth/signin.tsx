@@ -24,9 +24,7 @@ const Signin = ({ botUsername }: { botUsername: string }) => {
         <title>💎 Marketplace - Log In </title>
       </Head>
       <div className="absolute left-1/2 top-1/3 -translate-x-1/2">
-        <span className="text-nowrap text-4xl font-semibold">
-          💎 Marketplace
-        </span>
+        <span className="text-4xl font-semibold">💎&nbsp;Marketplace</span>
       </div>
       <div className="flex h-screen flex-col items-center justify-center">
         {error && (
