@@ -7,6 +7,10 @@ const tonweb = new TonWeb()
 
 export const getTonApi = () => {
   if (!tonapiClient) {
+    if (!process.env.TONAPI_TOKEN) {
+      throw new Error('TONAPI_TOKEN is not defined')
+    }
+
     const httpClient = new HttpClient({
       baseUrl: 'https://tonapi.io',
       baseApiParams: {

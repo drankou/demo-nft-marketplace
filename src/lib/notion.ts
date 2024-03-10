@@ -10,6 +10,10 @@ let notionClient: Client
 
 export const getNotionClient = () => {
   if (!notionClient) {
+    if (!process.env.NOTION_TOKEN) {
+      throw new Error('NOTION_TOKEN is not defined')
+    }
+
     notionClient = new Client({
       auth: process.env.NOTION_TOKEN,
     })
