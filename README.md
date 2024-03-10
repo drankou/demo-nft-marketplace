@@ -8,11 +8,13 @@ This is a demo app that allows authorized users to access a list of NFT (Non-fun
 | ----- | --------- |
 | ![CleanShot 2024-03-10 at 18 08 18@2x](https://github.com/drankou/demo-nft-marketplace/assets/25752851/c6ca8041-27a6-404b-82d1-5f3520371871)| ![CleanShot 2024-03-10 at 18 07 45@2x](https://github.com/drankou/demo-nft-marketplace/assets/25752851/2fc131e2-f71d-4a1d-9402-067bc00d4c78)|
 
-## Getting Started
+## Live Demo
+
+You can access the live demo of the application at http://demo-nft-marketplace-one.vercel.app.
+
+## Local development
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
-
-### Local development
 
 1. Create `.env.local` file by copying `.env.example` file
 
@@ -71,7 +73,3 @@ yarn install
 ```bash
 yarn dev
 ```
-
-## Live Demo
-
-You can access the live demo of the application at http://demo-nft-marketplace-one.vercel.app.
