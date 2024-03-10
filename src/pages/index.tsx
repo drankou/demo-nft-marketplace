@@ -78,6 +78,7 @@ export default function Home({
   useEffect(() => {
     if (hasMoreData && isInView && !isLoading) {
       loadMoreData()
+      setIsInView(false)
     }
   }, [isInView, hasMoreData, isLoading])
 
